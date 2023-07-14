@@ -2,15 +2,7 @@ package com.box.l10n.mojito.entity;
 
 import com.box.l10n.mojito.service.assetExtraction.AssetMappingDTO;
 import com.box.l10n.mojito.service.tm.search.TextUnitSearcher;
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 

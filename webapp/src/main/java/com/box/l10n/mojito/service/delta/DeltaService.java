@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,7 +28,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -65,8 +65,8 @@ public class DeltaService {
   public Page<TextUnitVariantDeltaDTO> getDeltasForDates(
       Repository repository,
       List<Locale> locales,
-      DateTime fromDate,
-      DateTime toDate,
+      LocalDateTime fromDate,
+      LocalDateTime toDate,
       Pageable pageable) {
     if (locales == null || locales.size() == 0) {
       locales =
@@ -76,11 +76,11 @@ public class DeltaService {
     }
 
     if (fromDate == null) {
-      fromDate = new DateTime(0);
+      fromDate = LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC);
     }
 
     if (toDate == null) {
-      toDate = DateTime.now();
+      toDate = LocalDateTime.now();
     }
 
     return tmTextUnitVariantRepository.findAllUsedForRepositoryAndLocalesInDateRange(
@@ -123,14 +123,14 @@ public class DeltaService {
     List<Long> pushRunIds = getIds(pushRuns);
     List<Long> pullRunIds = getIds(pullRuns);
 
-    DateTime translationsFromDate =
+    LocalDateTime translationsFromDate =
         Optional.ofNullable(pullRuns).orElse(Collections.emptyList()).stream()
             .min(Comparator.comparing(PullRun::getCreatedDate))
             .map(PullRun::getCreatedDate)
             // Remove milliseconds as the Mojito DB does not store dates with sub-second precision.
-            .map(dateTime -> dateTime.withMillisOfSecond(0))
-            .orElse(new DateTime(0));
-    Instant fromDateInstant = Instant.ofEpochMilli(translationsFromDate.getMillis());
+            .map(dateTime -> dateTime.truncatedTo(ChronoUnit.MILLIS))
+            .orElse(LocalDateTime.of(1970, 1, 1, 0, 0));
+    Instant fromDateInstant = translationsFromDate.toInstant(ZoneOffset.UTC);
     Timestamp sqlTranslationsFromDate =
         Timestamp.valueOf(LocalDateTime.ofInstant(fromDateInstant, ZoneOffset.UTC));
 

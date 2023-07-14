@@ -2,11 +2,10 @@ package com.box.l10n.mojito.entity;
 
 import com.box.l10n.mojito.rest.View;
 import com.fasterxml.jackson.annotation.JsonView;
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import java.time.LocalDateTime;
 
 /**
  * Similar to {@link AuditableEntity} but allows to override the attributes.
@@ -18,22 +17,21 @@ import org.joda.time.DateTime;
 public abstract class SettableAuditableEntity extends BaseEntity {
 
   @Column(name = "created_date")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
   @JsonView(View.IdAndNameAndCreated.class)
-  protected DateTime createdDate;
+  protected LocalDateTime createdDate;
 
-  public DateTime getCreatedDate() {
+  public LocalDateTime getCreatedDate() {
     return createdDate;
   }
 
-  public void setCreatedDate(DateTime createdDate) {
+  public void setCreatedDate(LocalDateTime createdDate) {
     this.createdDate = createdDate;
   }
 
   @PrePersist
   public void onPrePersist() {
     if (createdDate == null) {
-      createdDate = new DateTime();
+      createdDate = LocalDateTime.now();
     }
   }
 }

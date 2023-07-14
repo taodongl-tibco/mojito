@@ -1,6 +1,6 @@
 package com.box.l10n.mojito.rest.textunit;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 public class ImportTextUnitStatisticsBody {
   private String name;
@@ -13,7 +13,7 @@ public class ImportTextUnitStatisticsBody {
 
   private Double lastPeriodEstimatedVolume;
 
-  private DateTime lastSeenDate;
+  private LocalDateTime lastSeenDate;
 
   public String getName() {
     return name;
@@ -55,11 +55,11 @@ public class ImportTextUnitStatisticsBody {
     this.lastPeriodEstimatedVolume = lastPeriodEstimatedVolume;
   }
 
-  public DateTime getLastSeenDate() {
+  public LocalDateTime getLastSeenDate() {
     return lastSeenDate;
   }
 
-  public void setLastSeenDate(DateTime lastSeenDate) {
+  public void setLastSeenDate(LocalDateTime lastSeenDate) {
     this.lastSeenDate = lastSeenDate;
   }
 

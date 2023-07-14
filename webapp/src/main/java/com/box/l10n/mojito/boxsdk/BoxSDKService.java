@@ -11,10 +11,11 @@ import com.google.common.base.Strings;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -344,7 +345,7 @@ public class BoxSDKService {
    * @param olderThan an instant to check against
    * @throws BoxSDKServiceException
    */
-  public void deleteFolderContentOlderThan(String folderId, DateTime olderThan)
+  public void deleteFolderContentOlderThan(String folderId, LocalDateTime olderThan)
       throws BoxSDKServiceException {
     try {
       BoxFolder boxFolder = new BoxFolder(getBoxAPIConnection(), folderId);
@@ -354,7 +355,13 @@ public class BoxSDKService {
         if (itemInfo instanceof BoxFolder.Info) {
           BoxFolder subFolder = (BoxFolder) itemInfo.getResource();
 
-          if (olderThan.isAfter(subFolder.getInfo().getCreatedAt().getTime())) {
+          if (olderThan.isAfter(
+              subFolder
+                  .getInfo()
+                  .getCreatedAt()
+                  .toInstant()
+                  .atZone(ZoneId.systemDefault())
+                  .toLocalDateTime())) {
             subFolder.delete(true);
           }
 
@@ -362,7 +369,12 @@ public class BoxSDKService {
 
           BoxFile file = (BoxFile) itemInfo.getResource();
 
-          if (olderThan.isAfter(file.getInfo().getCreatedAt().getTime())) {
+          if (olderThan.isAfter(
+              file.getInfo()
+                  .getCreatedAt()
+                  .toInstant()
+                  .atZone(ZoneId.systemDefault())
+                  .toLocalDateTime())) {
             file.delete();
           }
         }

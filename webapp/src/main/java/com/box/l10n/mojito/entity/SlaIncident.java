@@ -1,16 +1,8 @@
 package com.box.l10n.mojito.entity;
 
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 /** @author jaurambault */
 @Entity
@@ -18,8 +10,7 @@ import org.joda.time.DateTime;
 public class SlaIncident extends AuditableEntity {
 
   @Column(name = "closed_date")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  private DateTime closedDate;
+  private LocalDateTime closedDate;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
@@ -38,11 +29,11 @@ public class SlaIncident extends AuditableEntity {
     this.repositories = repositories;
   }
 
-  public DateTime getClosedDate() {
+  public LocalDateTime getClosedDate() {
     return closedDate;
   }
 
-  public void setClosedDate(DateTime closedDate) {
+  public void setClosedDate(LocalDateTime closedDate) {
     this.closedDate = closedDate;
   }
 }

@@ -1,7 +1,7 @@
 package com.box.l10n.mojito.rest.commit;
 
 import com.box.l10n.mojito.entity.Repository;
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 /** @author garion */
 public class CommitBody {
@@ -18,7 +18,7 @@ public class CommitBody {
   String authorName;
 
   /** The commit date (instead of the author date). */
-  DateTime sourceCreationDate;
+  LocalDateTime sourceCreationDate;
 
   public Long getRepositoryId() {
     return repositoryId;
@@ -52,11 +52,11 @@ public class CommitBody {
     this.authorName = authorName;
   }
 
-  public DateTime getSourceCreationDate() {
+  public LocalDateTime getSourceCreationDate() {
     return sourceCreationDate;
   }
 
-  public void setSourceCreationDate(DateTime sourceCreationDate) {
+  public void setSourceCreationDate(LocalDateTime sourceCreationDate) {
     this.sourceCreationDate = sourceCreationDate;
   }
 }

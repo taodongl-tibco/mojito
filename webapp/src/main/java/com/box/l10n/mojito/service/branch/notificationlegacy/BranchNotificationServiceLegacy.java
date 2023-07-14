@@ -19,13 +19,14 @@ import com.box.l10n.mojito.service.branch.notification.job.BranchNotificationMis
 import com.box.l10n.mojito.service.tm.search.TextUnitDTO;
 import com.box.l10n.mojito.utils.DateTimeUtils;
 import com.google.common.base.Joiner;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -149,7 +150,8 @@ public class BranchNotificationServiceLegacy {
    * @param senderType
    */
   void scheduleMissingScreenshotNotificationsForBranch(Branch branch, String senderType) {
-    Date date = DateTime.now().plusMinutes(30).toDate();
+    Date date =
+        Date.from(LocalDateTime.now().plusMinutes(30).atZone(ZoneId.systemDefault()).toInstant());
 
     BranchNotificationMissingScreenshotsJobInput branchNotificationMissingScreenshotsJobInput =
         new BranchNotificationMissingScreenshotsJobInput();

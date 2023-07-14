@@ -5,10 +5,10 @@ import static org.slf4j.LoggerFactory.getLogger;
 import com.box.l10n.mojito.entity.ApplicationCache;
 import com.box.l10n.mojito.entity.ApplicationCacheType;
 import com.box.l10n.mojito.service.DBUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import java.time.LocalDateTime;
 import java.util.Optional;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -56,7 +56,7 @@ public class ApplicationCacheUpdaterService {
       Optional<ApplicationCache> existingEntry =
           applicationCacheRepository.findByApplicationCacheTypeAndKeyMD5(
               applicationCacheType, keyMD5);
-      DateTime currentSqlTimestamp = getCurrentSqlTimestamp();
+      LocalDateTime currentSqlTimestamp = getCurrentSqlTimestamp();
 
       ApplicationCache applicationCache;
 
@@ -104,7 +104,7 @@ public class ApplicationCacheUpdaterService {
           applicationCacheRepository.findByApplicationCacheTypeAndKeyMD5(
               applicationCacheType, keyMD5);
       ApplicationCache applicationCache;
-      DateTime currentSqlTimestamp = getCurrentSqlTimestamp();
+      LocalDateTime currentSqlTimestamp = getCurrentSqlTimestamp();
 
       if (existingEntry.isPresent()) {
         applicationCache = existingEntry.get();
@@ -118,19 +118,20 @@ public class ApplicationCacheUpdaterService {
     }
   }
 
-  private DateTime getCurrentSqlTimestamp() {
-    DateTime currentTimestamp;
+  private LocalDateTime getCurrentSqlTimestamp() {
+    LocalDateTime currentTimestamp;
 
     try {
-      currentTimestamp =
-          new DateTime(
+      java.sql.Timestamp timestamp =
+          (java.sql.Timestamp)
               entityManager
                   .createNativeQuery(
                       "SELECT TOP 1 CURRENT_TIMESTAMP FROM INFORMATION_SCHEMA.TABLES")
-                  .getSingleResult());
+                  .getSingleResult();
+      currentTimestamp = timestamp.toLocalDateTime();
     } catch (Exception ex) {
       logger.error("Could not retrieve current timestamp from the SQL DB", ex);
-      currentTimestamp = DateTime.now();
+      currentTimestamp = LocalDateTime.now();
     }
     return currentTimestamp;
   }

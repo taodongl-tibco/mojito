@@ -4,27 +4,11 @@ import com.box.l10n.mojito.aspect.JsonRawString;
 import com.box.l10n.mojito.entity.security.user.User;
 import com.box.l10n.mojito.rest.View;
 import com.box.l10n.mojito.service.pollableTask.InjectCurrentTask;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedBy;
 
 /** @author jaurambault */
@@ -50,8 +34,7 @@ public class PollableTask extends AuditableEntity {
   private String name;
 
   @Column(name = "finished_date")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  private DateTime finishedDate;
+  private LocalDateTime finishedDate;
 
   @JsonIgnore
   @Column(name = "message", length = Integer.MAX_VALUE)
@@ -107,11 +90,11 @@ public class PollableTask extends AuditableEntity {
     this.name = name;
   }
 
-  public DateTime getFinishedDate() {
+  public LocalDateTime getFinishedDate() {
     return finishedDate;
   }
 
-  public void setFinishedDate(DateTime finishedDate) {
+  public void setFinishedDate(LocalDateTime finishedDate) {
     this.finishedDate = finishedDate;
   }
 

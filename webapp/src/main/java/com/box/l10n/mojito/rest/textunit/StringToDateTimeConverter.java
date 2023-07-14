@@ -1,6 +1,8 @@
 package com.box.l10n.mojito.rest.textunit;
 
-import org.joda.time.DateTime;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -12,22 +14,22 @@ import org.springframework.stereotype.Component;
  * @author jeanaurambault
  */
 @Component
-public class StringToDateTimeConverter implements Converter<String, DateTime> {
+public class StringToDateTimeConverter implements Converter<String, LocalDateTime> {
 
   @Override
-  public DateTime convert(String source) {
+  public LocalDateTime convert(String source) {
 
-    DateTime converted = null;
+    LocalDateTime converted = null;
 
     if (source != null) {
-      Object instant;
 
       try {
-        instant = Long.parseLong(source);
+        long instant = Long.parseLong(source);
+        return LocalDateTime.ofInstant(
+            Instant.ofEpochMilli(instant), TimeZone.getDefault().toZoneId());
       } catch (NumberFormatException nfe) {
-        instant = source;
+        converted = LocalDateTime.parse(source);
       }
-      converted = new DateTime(instant);
     }
 
     return converted;

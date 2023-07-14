@@ -7,13 +7,13 @@ import com.box.l10n.mojito.entity.Branch_;
 import com.box.l10n.mojito.entity.security.user.User;
 import com.box.l10n.mojito.entity.security.user.User_;
 import com.box.l10n.mojito.specification.SingleParamSpecification;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import org.joda.time.DateTime;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import java.time.LocalDateTime;
 
 /** @author jeanaurambault */
 public class BranchStatisticSpecification {
@@ -86,7 +86,7 @@ public class BranchStatisticSpecification {
   }
 
   public static SingleParamSpecification<BranchStatistic> createdBefore(
-      final DateTime createdBefore) {
+      final LocalDateTime createdBefore) {
     return new SingleParamSpecification<BranchStatistic>(createdBefore) {
       @Override
       public Predicate toPredicate(
@@ -99,7 +99,7 @@ public class BranchStatisticSpecification {
   }
 
   public static SingleParamSpecification<BranchStatistic> createdAfter(
-      final DateTime createdAfter) {
+      final LocalDateTime createdAfter) {
     return new SingleParamSpecification<BranchStatistic>(createdAfter) {
       @Override
       public Predicate toPredicate(

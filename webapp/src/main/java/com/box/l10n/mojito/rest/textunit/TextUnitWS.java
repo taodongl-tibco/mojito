@@ -35,11 +35,11 @@ import com.box.l10n.mojito.service.tm.search.TextUnitSearcherParameters;
 import com.box.l10n.mojito.service.tm.search.UsedFilter;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.type.TypeReference;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,9 +137,9 @@ public class TextUnitWS {
       @RequestParam(value = "statusFilter", required = false) StatusFilter statusFilter,
       @RequestParam(value = "doNotTranslateFilter", required = false) Boolean doNotTranslateFilter,
       @RequestParam(value = "tmTextUnitCreatedBefore", required = false)
-          DateTime tmTextUnitCreatedBefore,
+          LocalDateTime tmTextUnitCreatedBefore,
       @RequestParam(value = "tmTextUnitCreatedAfter", required = false)
-          DateTime tmTextUnitCreatedAfter,
+          LocalDateTime tmTextUnitCreatedAfter,
       @RequestParam(value = "branchId", required = false) Long branchId,
       @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
       @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset)
@@ -195,9 +195,9 @@ public class TextUnitWS {
       @RequestParam(value = "statusFilter", required = false) StatusFilter statusFilter,
       @RequestParam(value = "doNotTranslateFilter", required = false) Boolean doNotTranslateFilter,
       @RequestParam(value = "tmTextUnitCreatedBefore", required = false)
-          DateTime tmTextUnitCreatedBefore,
+          LocalDateTime tmTextUnitCreatedBefore,
       @RequestParam(value = "tmTextUnitCreatedAfter", required = false)
-          DateTime tmTextUnitCreatedAfter,
+          LocalDateTime tmTextUnitCreatedAfter,
       @RequestParam(value = "branchId", required = false) Long branchId)
       throws InvalidTextUnitSearchParameterException {
 
@@ -262,8 +262,8 @@ public class TextUnitWS {
       UsedFilter usedFilter,
       StatusFilter statusFilter,
       Boolean doNotTranslateFilter,
-      DateTime tmTextUnitCreatedBefore,
-      DateTime tmTextUnitCreatedAfter,
+      LocalDateTime tmTextUnitCreatedBefore,
+      LocalDateTime tmTextUnitCreatedAfter,
       Long branchId,
       SearchType searchType)
       throws InvalidTextUnitSearchParameterException {

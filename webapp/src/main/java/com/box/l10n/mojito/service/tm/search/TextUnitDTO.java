@@ -1,7 +1,7 @@
 package com.box.l10n.mojito.service.tm.search;
 
 import com.box.l10n.mojito.entity.TMTextUnitVariant;
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 /**
  * DTO to build text units from TM entities
@@ -25,14 +25,14 @@ public class TextUnitDTO {
   private Long tmTextUnitCurrentVariantId;
   private TMTextUnitVariant.Status status;
   private boolean includedInLocalizedFile;
-  private DateTime createdDate;
+  private LocalDateTime createdDate;
   private boolean assetDeleted;
   private String pluralForm;
   private String pluralFormOther;
   private String repositoryName;
   private String assetPath;
   private Long assetTextUnitId;
-  private DateTime tmTextUnitCreatedDate;
+  private LocalDateTime tmTextUnitCreatedDate;
   private boolean doNotTranslate;
 
   public Long getTmTextUnitId() {
@@ -171,11 +171,11 @@ public class TextUnitDTO {
     this.includedInLocalizedFile = includedInLocalizedFile;
   }
 
-  public DateTime getCreatedDate() {
+  public LocalDateTime getCreatedDate() {
     return createdDate;
   }
 
-  public void setCreatedDate(DateTime createdDate) {
+  public void setCreatedDate(LocalDateTime createdDate) {
     this.createdDate = createdDate;
   }
 
@@ -227,11 +227,11 @@ public class TextUnitDTO {
     this.assetTextUnitId = assetTextUnitId;
   }
 
-  public DateTime getTmTextUnitCreatedDate() {
+  public LocalDateTime getTmTextUnitCreatedDate() {
     return tmTextUnitCreatedDate;
   }
 
-  public void setTmTextUnitCreatedDate(DateTime tmTextUnitCreatedDate) {
+  public void setTmTextUnitCreatedDate(LocalDateTime tmTextUnitCreatedDate) {
     this.tmTextUnitCreatedDate = tmTextUnitCreatedDate;
   }
 

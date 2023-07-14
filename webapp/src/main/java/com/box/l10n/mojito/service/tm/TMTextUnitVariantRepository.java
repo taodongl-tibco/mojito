@@ -6,8 +6,8 @@ import com.box.l10n.mojito.entity.PushRun;
 import com.box.l10n.mojito.entity.Repository;
 import com.box.l10n.mojito.entity.TMTextUnitVariant;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
-import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -63,8 +63,8 @@ public interface TMTextUnitVariantRepository extends JpaRepository<TMTextUnitVar
   Page<TextUnitVariantDeltaDTO> findAllUsedForRepositoryAndLocalesInDateRange(
       @Param("repository") Repository repository,
       @Param("locales") List<Locale> locales,
-      @Param("fromDate") DateTime fromDate,
-      @Param("toDate") DateTime toDate,
+      @Param("fromDate") LocalDateTime fromDate,
+      @Param("toDate") LocalDateTime toDate,
       Pageable pageable);
 
   /**

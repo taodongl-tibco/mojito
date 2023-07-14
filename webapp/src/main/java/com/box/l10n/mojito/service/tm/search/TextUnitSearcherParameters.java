@@ -1,11 +1,11 @@
 package com.box.l10n.mojito.service.tm.search;
 
 import com.box.l10n.mojito.service.NormalizationUtils;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import org.joda.time.DateTime;
 
 /**
  * Parameters for {@link
@@ -41,8 +41,8 @@ public class TextUnitSearcherParameters {
   boolean pluralFormsExcluded = false;
   Long pluralFormId;
   Boolean doNotTranslateFilter;
-  DateTime tmTextUnitCreatedBefore;
-  DateTime tmTextUnitCreatedAfter;
+  LocalDateTime tmTextUnitCreatedBefore;
+  LocalDateTime tmTextUnitCreatedAfter;
   Long branchId;
   String skipTextUnitWithPattern;
   String includeTextUnitsWithPattern;
@@ -244,19 +244,19 @@ public class TextUnitSearcherParameters {
     this.doNotTranslateFilter = doNotTranslateFilter;
   }
 
-  public DateTime getTmTextUnitCreatedBefore() {
+  public LocalDateTime getTmTextUnitCreatedBefore() {
     return tmTextUnitCreatedBefore;
   }
 
-  public void setTmTextUnitCreatedBefore(DateTime tmTextUnitCreatedBefore) {
+  public void setTmTextUnitCreatedBefore(LocalDateTime tmTextUnitCreatedBefore) {
     this.tmTextUnitCreatedBefore = tmTextUnitCreatedBefore;
   }
 
-  public DateTime getTmTextUnitCreatedAfter() {
+  public LocalDateTime getTmTextUnitCreatedAfter() {
     return tmTextUnitCreatedAfter;
   }
 
-  public void setTmTextUnitCreatedAfter(DateTime tmTextUnitCreatedAfter) {
+  public void setTmTextUnitCreatedAfter(LocalDateTime tmTextUnitCreatedAfter) {
     this.tmTextUnitCreatedAfter = tmTextUnitCreatedAfter;
   }
 

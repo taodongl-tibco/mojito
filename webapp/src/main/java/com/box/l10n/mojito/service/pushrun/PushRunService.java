@@ -7,6 +7,7 @@ import com.box.l10n.mojito.entity.Repository;
 import com.box.l10n.mojito.entity.TMTextUnit;
 import com.box.l10n.mojito.service.commit.CommitToPushRunRepository;
 import com.google.common.collect.Lists;
+import jakarta.persistence.EntityManager;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
@@ -15,9 +16,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -147,8 +146,9 @@ public class PushRunService {
   }
 
   public void deleteAllPushEntitiesOlderThan(Duration retentionDuration) {
-    DateTime beforeDate = DateTime.now().minusSeconds((int) retentionDuration.getSeconds());
-    Timestamp sqlBeforeDate = new Timestamp(beforeDate.toDate().getTime());
+    LocalDateTime beforeDate =
+        LocalDateTime.now().minusSeconds((int) retentionDuration.getSeconds());
+    Timestamp sqlBeforeDate = Timestamp.valueOf(beforeDate);
 
     int batchNumber = 1;
     int deleteCount;

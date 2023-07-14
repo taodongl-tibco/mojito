@@ -1,16 +1,8 @@
 package com.box.l10n.mojito.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 /**
  * Entity that contains the cache entry details for a database-backed application cache. Each entity
@@ -46,17 +38,18 @@ public class ApplicationCache extends BaseEntity {
   private byte[] value;
 
   @Column(name = "created_date")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  private DateTime createdDate;
+  private LocalDateTime createdDate;
 
   @Column(name = "expiry_date")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  private DateTime expiryDate;
+  private LocalDateTime expiryDate;
 
   public ApplicationCache() {}
 
   public ApplicationCache(
-      ApplicationCacheType applicationCacheType, String keyMD5, byte[] value, DateTime expiryDate) {
+      ApplicationCacheType applicationCacheType,
+      String keyMD5,
+      byte[] value,
+      LocalDateTime expiryDate) {
     this.applicationCacheType = applicationCacheType;
     this.keyMD5 = keyMD5;
     this.value = value;
@@ -71,19 +64,19 @@ public class ApplicationCache extends BaseEntity {
     this.value = value;
   }
 
-  public DateTime getCreatedDate() {
+  public LocalDateTime getCreatedDate() {
     return createdDate;
   }
 
-  public void setCreatedDate(DateTime createdDate) {
+  public void setCreatedDate(LocalDateTime createdDate) {
     this.createdDate = createdDate;
   }
 
-  public DateTime getExpiryDate() {
+  public LocalDateTime getExpiryDate() {
     return expiryDate;
   }
 
-  public void setExpiryDate(DateTime expireDate) {
+  public void setExpiryDate(LocalDateTime expireDate) {
     this.expiryDate = expireDate;
   }
 }

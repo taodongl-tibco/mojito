@@ -5,17 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 /** @author garion */
 @Entity
@@ -66,8 +58,7 @@ public class Commit extends AuditableEntity {
    */
   @JsonView(View.Commit.class)
   @Column(name = "source_creation_date")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  private DateTime sourceCreationDate;
+  private LocalDateTime sourceCreationDate;
 
   @JsonView(View.CommitDetailed.class)
   @JsonManagedReference
@@ -111,11 +102,11 @@ public class Commit extends AuditableEntity {
     this.name = name;
   }
 
-  public DateTime getSourceCreationDate() {
+  public LocalDateTime getSourceCreationDate() {
     return sourceCreationDate;
   }
 
-  public void setSourceCreationDate(DateTime sourceCreationDate) {
+  public void setSourceCreationDate(LocalDateTime sourceCreationDate) {
     this.sourceCreationDate = sourceCreationDate;
   }
 

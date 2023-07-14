@@ -1,7 +1,7 @@
 package com.box.l10n.mojito.service.delta.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 /**
  * Metadata for the Delta response.
@@ -15,28 +15,28 @@ public class DeltaMetadataDTO {
    * where created based on a date range.
    */
   @JsonProperty("fromDate")
-  public DateTime fromDate;
+  public LocalDateTime fromDate;
 
   /**
    * This records the end date up to which point we would have captured deltas to, when deltas where
    * created based on a date range.
    */
   @JsonProperty("toDate")
-  public DateTime toDate;
+  public LocalDateTime toDate;
 
-  public DateTime getFromDate() {
+  public LocalDateTime getFromDate() {
     return fromDate;
   }
 
-  public void setFromDate(DateTime fromDate) {
+  public void setFromDate(LocalDateTime fromDate) {
     this.fromDate = fromDate;
   }
 
-  public DateTime getToDate() {
+  public LocalDateTime getToDate() {
     return toDate;
   }
 
-  public void setToDate(DateTime toDate) {
+  public void setToDate(LocalDateTime toDate) {
     this.toDate = toDate;
   }
 }

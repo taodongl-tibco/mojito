@@ -18,9 +18,10 @@ import com.box.l10n.mojito.service.pullrun.PullRunWithNameNotFoundException;
 import com.box.l10n.mojito.service.pushrun.PushRunRepository;
 import com.box.l10n.mojito.service.pushrun.PushRunWithNameNotFoundException;
 import com.box.l10n.mojito.service.repository.RepositoryRepository;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -108,7 +109,7 @@ public class CommitService {
       String commitName,
       String authorEmail,
       String authorName,
-      DateTime sourceCreationDate)
+      LocalDateTime sourceCreationDate)
       throws SaveCommitMismatchedExistingDataException {
     Commit commit = new Commit();
 
@@ -129,9 +130,10 @@ public class CommitService {
       }
 
       // Remove milliseconds when comparing as the dates are not stored with sub-second precision.
-      DateTime existingCreationDateWithoutMs = commit.getSourceCreationDate().withMillisOfSecond(0);
-      DateTime sourceCreationDateWithoutMs = sourceCreationDate.withMillisOfSecond(0);
-      if (existingCreationDateWithoutMs.getMillis() != sourceCreationDateWithoutMs.getMillis()) {
+      LocalDateTime existingCreationDateWithoutMs =
+          commit.getSourceCreationDate().truncatedTo(ChronoUnit.MILLIS);
+      LocalDateTime sourceCreationDateWithoutMs = sourceCreationDate.truncatedTo(ChronoUnit.MILLIS);
+      if (!existingCreationDateWithoutMs.isEqual(sourceCreationDateWithoutMs)) {
         throw new SaveCommitMismatchedExistingDataException(
             "sourceCreationDate",
             commit.getSourceCreationDate().toString(),

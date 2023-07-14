@@ -1,10 +1,6 @@
 package com.box.l10n.mojito.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  * Simple storage for images.

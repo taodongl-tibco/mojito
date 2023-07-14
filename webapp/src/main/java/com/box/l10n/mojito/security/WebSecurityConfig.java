@@ -3,9 +3,9 @@ package com.box.l10n.mojito.security;
 import com.box.l10n.mojito.ActuatorHealthLegacyConfig;
 import com.box.l10n.mojito.service.security.user.UserService;
 import com.google.common.base.Preconditions;
+import jakarta.servlet.Filter;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,10 @@ import org.springframework.security.config.annotation.authentication.configurers
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
@@ -35,7 +36,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 // TOOD(spring2) we don't use method level security, do we? remove?
 @EnableGlobalMethodSecurity(securedEnabled = true, mode = AdviceMode.ASPECTJ)
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
   static final String LOGIN_PAGE = "/login";
   /** logger */
@@ -135,23 +136,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     auth.authenticationProvider(preAuthenticatedAuthenticationProvider);
   }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     logger.debug("Configuring web security");
 
     // TODO should we just enable caching of static assets, this disabling cache control for
     // everything
     // https://docs.spring.io/spring-security/site/docs/current/reference/html5/#headers-cache-control
-    http.headers().cacheControl().disable();
-
+    http.headers((headers) -> headers.cacheControl().disable());
     // no csrf on rotation end point - they are accessible only locally
-    http.csrf().ignoringAntMatchers("/actuator/shutdown", "/actuator/loggers/**", "/api/rotation");
+    http.csrf(
+        (csrf) ->
+            csrf.ignoringRequestMatchers(
+                "/actuator/shutdown", "/actuator/loggers/**", "/api/rotation"));
+    ;
 
     // matcher order matters - "everything else" mapping must be last
-    http.authorizeRequests(
-        authorizeRequests ->
-            authorizeRequests
-                .antMatchers(
+    http.authorizeHttpRequests(
+        (auth) ->
+            auth.requestMatchers(
                     "/intl/*",
                     "/img/*",
                     "/login/**",
@@ -161,16 +164,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/js/**",
                     "/css/**")
                 .permitAll()
-                . // always accessible to serve the frontend
-                antMatchers(getHeathcheckPatterns())
+                .requestMatchers(getHeathcheckPatterns())
                 .permitAll()
-                . // allow health entry points
-                antMatchers("/actuator/shutdown", "/actuator/loggers/**", "/api/rotation")
-                .hasIpAddress("127.0.0.1")
-                . // local access only for rotation management and logger config
-                antMatchers("/**")
-                .authenticated() // everything else must be authenticated
-        );
+                .requestMatchers("/actuator/shutdown", "/actuator/loggers/**", "/api/rotation")
+                .access(new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1')"))
+                .requestMatchers("/**")
+                .authenticated());
 
     logger.debug("For APIs, we don't redirect to login page. Instead we return a 401");
     http.exceptionHandling()
@@ -195,7 +194,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
               requestHeaderAuthenticationFilter,
               "The requestHeaderAuthenticationFilter must be configured");
           logger.debug("Add request header Auth filter");
-          requestHeaderAuthenticationFilter.setAuthenticationManager(authenticationManager());
+          //
+          // requestHeaderAuthenticationFilter.setAuthenticationManager(authenticationManager());
           http.addFilterBefore(requestHeaderAuthenticationFilter, BasicAuthenticationFilter.class);
           break;
         case OAUTH2:
@@ -230,6 +230,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           break;
       }
     }
+    return http.build();
   }
 
   /**
