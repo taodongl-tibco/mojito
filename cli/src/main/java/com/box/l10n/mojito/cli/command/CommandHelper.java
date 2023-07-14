@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,8 +37,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BOMInputStream;
 import org.fusesource.jansi.Ansi;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -341,10 +341,10 @@ public class CommandHelper {
    * @param condition
    * @return
    */
-  DateTime getLastWeekDateIfTrue(boolean condition) {
-    DateTime dateTime = null;
+  LocalDateTime getLastWeekDateIfTrue(boolean condition) {
+    LocalDateTime dateTime = null;
     if (condition) {
-      dateTime = DateTime.now(DateTimeZone.UTC).minusWeeks(1);
+      dateTime = LocalDateTime.now(ZoneId.of("UTC")).minusWeeks(1);
     }
     return dateTime;
   }

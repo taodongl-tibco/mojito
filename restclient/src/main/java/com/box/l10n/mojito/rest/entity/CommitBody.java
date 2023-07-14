@@ -1,6 +1,6 @@
 package com.box.l10n.mojito.rest.entity;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 /**
  * Entity that describes the information needed for creating a new Commit entry. This entity
@@ -22,7 +22,7 @@ public class CommitBody {
   String authorName;
 
   /** The commit date (instead of the author date). */
-  DateTime sourceCreationDate;
+  LocalDateTime sourceCreationDate;
 
   public Long getRepositoryId() {
     return repositoryId;
@@ -56,11 +56,11 @@ public class CommitBody {
     this.authorName = authorName;
   }
 
-  public DateTime getSourceCreationDate() {
+  public LocalDateTime getSourceCreationDate() {
     return sourceCreationDate;
   }
 
-  public void setSourceCreationDate(DateTime sourceCreationDate) {
+  public void setSourceCreationDate(LocalDateTime sourceCreationDate) {
     this.sourceCreationDate = sourceCreationDate;
   }
 }

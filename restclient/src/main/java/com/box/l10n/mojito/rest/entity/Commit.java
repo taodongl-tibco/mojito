@@ -1,7 +1,7 @@
 package com.box.l10n.mojito.rest.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 /**
  * Entity that describes a Commit entry. This entity mirrors: com.box.l10n.mojito.entity.Commit
@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 public class Commit {
 
   protected Long id;
-  protected DateTime createdDate;
+  protected LocalDateTime createdDate;
   private Repository repository;
   private String name;
   private String authorEmail;
@@ -23,7 +23,7 @@ public class Commit {
    * The date when the commit was actually commited / merged to the target final branch, i.e.:
    * commit date instead of author date.
    */
-  private DateTime sourceCreationDate;
+  private LocalDateTime sourceCreationDate;
 
   private CommitToPushRun commitToPushRun;
 
@@ -37,11 +37,11 @@ public class Commit {
     this.id = id;
   }
 
-  public DateTime getCreatedDate() {
+  public LocalDateTime getCreatedDate() {
     return createdDate;
   }
 
-  public void setCreatedDate(DateTime createdDate) {
+  public void setCreatedDate(LocalDateTime createdDate) {
     this.createdDate = createdDate;
   }
 
@@ -77,11 +77,11 @@ public class Commit {
     this.name = name;
   }
 
-  public DateTime getSourceCreationDate() {
+  public LocalDateTime getSourceCreationDate() {
     return sourceCreationDate;
   }
 
-  public void setSourceCreationDate(DateTime sourceCreationDate) {
+  public void setSourceCreationDate(LocalDateTime sourceCreationDate) {
     this.sourceCreationDate = sourceCreationDate;
   }
 

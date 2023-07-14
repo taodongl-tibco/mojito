@@ -1,11 +1,11 @@
 package com.box.l10n.mojito.cli.command;
 
 import com.beust.jcommander.IStringConverter;
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
-public class DateTimeConverter implements IStringConverter<DateTime> {
+public class DateTimeConverter implements IStringConverter<LocalDateTime> {
   @Override
-  public DateTime convert(String dateAsText) {
-    return DateTime.parse(dateAsText);
+  public LocalDateTime convert(String dateAsText) {
+    return LocalDateTime.parse(dateAsText);
   }
 }

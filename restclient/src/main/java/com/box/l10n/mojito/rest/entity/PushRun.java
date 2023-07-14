@@ -3,8 +3,8 @@ package com.box.l10n.mojito.rest.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
 import java.util.Set;
-import org.joda.time.DateTime;
 
 /**
  * Entity that describes a PushRun. This entity mirrors: com.box.l10n.mojito.entity.PushRun
@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PushRun {
   protected Long id;
-  protected DateTime createdDate;
+  protected LocalDateTime createdDate;
 
   @JsonProperty("repository_id")
   private Long repositoryId;
@@ -47,11 +47,11 @@ public class PushRun {
     this.name = name;
   }
 
-  public DateTime getCreatedDate() {
+  public LocalDateTime getCreatedDate() {
     return createdDate;
   }
 
-  public void setCreatedDate(DateTime createdDate) {
+  public void setCreatedDate(LocalDateTime createdDate) {
     this.createdDate = createdDate;
   }
 

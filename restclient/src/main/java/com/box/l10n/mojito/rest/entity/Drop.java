@@ -1,6 +1,6 @@
 package com.box.l10n.mojito.rest.entity;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 /** @author jaurambault */
 public class Drop {
@@ -9,7 +9,7 @@ public class Drop {
 
   String name;
 
-  DateTime lastImportedDate;
+  LocalDateTime lastImportedDate;
 
   Boolean canceled;
 
@@ -29,11 +29,11 @@ public class Drop {
     this.name = name;
   }
 
-  public DateTime getLastImportedDate() {
+  public LocalDateTime getLastImportedDate() {
     return lastImportedDate;
   }
 
-  public void setLastImportedDate(DateTime lastImportedDate) {
+  public void setLastImportedDate(LocalDateTime lastImportedDate) {
     this.lastImportedDate = lastImportedDate;
   }
 
